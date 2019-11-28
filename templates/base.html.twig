@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>{% block title %}Welcome!{% endblock %}</title>
+    <title>{% block title %}training Factory{% endblock %}</title>
     {% block stylesheets %}
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.0/css/bootstrap.min.css"
               integrity="sha384-SI27wrMjH3ZZ89r4o+fGIJtnzkAnFs3E4qz9DIYioCQ5l9Rd/7UAa8DHcaL8jkWt"
@@ -16,7 +16,7 @@
             <div class="row">
                 <div class="col-lg">
                     <div class="float-left">
-                        <img src="{{ 'img/logo.png' }}" class="img-fluid">
+                        <img src="{{ asset('img/logo.png') }}" class="img-fluid">
                     </div>
                 </div>
                 <div class="col-lg">
@@ -33,19 +33,44 @@
         </div>
     </header>
     <hr class="border border-danger m-2">
-    <div class="container m-2">
-        <nav class="navbar navbar-expand-lg navbar-dark text-danger p-0">
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
-                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+    <div class="container mt-2 p-0">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav">
+
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto">
                     {% block nav %}{% endblock %}
                 </ul>
             </div>
         </nav>
     </div>
+    <div class="container border border-dark p-1">
+        <div class="row">
+            <div class="col">
+                <img src="{{ asset('img/kickbox1.jpg') }}" class="d-none d-md-block img-fluid">
+            </div>
+            <div class="col">
+                <img src="{{ asset('img/kickbox2.jpg') }}" class="d-none d-md-block img-fluid">
+            </div>
+            <div class="col">
+                <img src="{{ asset('img/kickbox3.jpg') }}" class="d-none d-md-block img-fluid">
+            </div>
+        </div>
+        {% block content %} {% endblock %}
+    </div>
+
+    <div class="container mt-2 p-0">
+        <footer class="bg-secondary p-1">
+            <p class="text-center text-danger">Training Centrum Den Haag 010 519 0532</p>
+            <p class="text-center text-white">developd bij fastDevelopment 2016</p>
+        </footer>
+    </div>
+
+
+
 {% endblock %}
 {% block javascripts %}
     <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"

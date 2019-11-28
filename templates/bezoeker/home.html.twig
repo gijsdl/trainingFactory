@@ -1,18 +1,33 @@
 {% extends 'base.html.twig' %}
 {% block nav %}
     <li class="nav-item active">
-        <a class="nav-link text-danger" href="#">Home <span class="sr-only">(current)</span></a>
+        <a class="nav-link" href="{{ path('home') }}">Home<span class="sr-only">(current)</span></a>
     </li>
     <li class="nav-item">
-        <a class="nav-link text-danger" href="#">Trainings Aanbod</a>
+        <a class="nav-link" href="{{ path('training_aanbod') }}">Trainings Aanbod</a>
     </li>
     <li class="nav-item">
-        <a class="nav-link text-danger" href="#">Lid Worden</a>
+        <a class="nav-link" href="#">Lid Worden</a>
     </li>
     <li class="nav-item">
-        <a class="nav-link text-danger" href="#">Gedragsregels</a>
+        <a class="nav-link" href="#">Gedragsregels</a>
     </li>
     <li class="nav-item">
-        <a class="nav-link text-danger" href="#">Lokatie & contact</a>
+        <a class="nav-link" href="#">Lokatie & contact</a>
     </li>
+{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-7 offset-2">
+            <h2 class="text-danger mt-4 mb-4"> Welkom bij Trainings Centrum Den Haag</h2>
+            <p>
+                Den Haag Trainings Centrum is een sportschool waar onder professionele begeleiding in een veilige
+                omgeving
+                verschillende soorten martial art-, indoor bootcamp, personal- en small group trainingen worden
+                aangeboden. Hier
+                kan je je inschrijven op een les of uitschrijven op een les.
+            </p>
+        </div>
+    </div>
 {% endblock %}
