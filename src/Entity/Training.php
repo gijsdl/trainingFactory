@@ -26,7 +26,7 @@ class Training
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $descrtioption;
+    private $description;
 
     /**
      * @ORM\Column(type="integer")
@@ -65,14 +65,14 @@ class Training
         return $this;
     }
 
-    public function getDescrtioption(): ?string
+    public function getDescription(): ?string
     {
-        return $this->descrtioption;
+        return $this->description;
     }
 
-    public function setDescrtioption(string $descrtioption): self
+    public function setDescription(string $description): self
     {
-        $this->descrtioption = $descrtioption;
+        $this->description = $description;
 
         return $this;
     }

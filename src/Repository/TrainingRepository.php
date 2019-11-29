@@ -19,7 +19,7 @@ class TrainingRepository extends ServiceEntityRepository
         parent::__construct($registry, Training::class);
     }
 
-    public function gettraining(){
+    public function getTraining(){
 
         $em = $this->getEntityManager();
 

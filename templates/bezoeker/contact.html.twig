@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+{% block nav %}
+    <li class="nav-item">
+        <a class="nav-link" href="{{ path('home') }}">Home</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="{{ path('training_aanbod') }}">Trainings Aanbod</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="#">Lid Worden</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="{{ path('gedragsregels') }}">Gedragsregels</a>
+    </li>
+    <li class="nav-item active">
+        <a class="nav-link" href="{{ path('contact') }}">Lokatie & contact<span class="sr-only">(current)</span></a>
+    </li>
+{% endblock %}
+{% block content %}
+<div class="row">
+    <div class="col border border-dark m-3 text-center">
+        <h2 class="text-danger">bel ons</h2>
+        <p>U kunt ons op de telefoon bereiken via:<br>
+            010 519 0532</p>
+    </div>
+    <div class="col border border-dark m-3 text-center">
+        <h2 class="text-danger">email ons</h2>
+        <p>u kunt ons emailen via:<br>
+        service@trainingfactory.nl</p>
+    </div>
+    <div class="col border border-dark m-3 text-center">
+        <h2 class="text-danger">bezoek ons</h2>
+        <p>u kunt ons bezoeken op:<br>
+        trainingsstraat 14</p>
+    </div>
+</div>
+{% endblock %}
