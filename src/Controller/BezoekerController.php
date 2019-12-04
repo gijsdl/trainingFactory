@@ -23,7 +23,7 @@ class BezoekerController extends AbstractController
      */
     public function trainingAanbod()
     {
-        $trainingen = $this->getDoctrine()->getRepository(Training::class)->getTraining();
+        $trainingen = $this->getDoctrine()->getRepository(Training::class)->findAll();
 
         return $this->render('bezoeker/training-aanbod.html.twig',['trainingen'=>$trainingen]);
     }

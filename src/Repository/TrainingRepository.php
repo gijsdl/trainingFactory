@@ -19,16 +19,6 @@ class TrainingRepository extends ServiceEntityRepository
         parent::__construct($registry, Training::class);
     }
 
-    public function getTraining(){
-
-        $em = $this->getEntityManager();
-
-        $query = $em->createQuery("SELECT t FROM App:training t" );
-
-        return $query->getResult();
-
-    }
-
     // /**
     //  * @return Training[] Returns an array of Training objects
     //  */
