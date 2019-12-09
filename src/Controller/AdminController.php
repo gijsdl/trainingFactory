@@ -18,6 +18,7 @@ class AdminController extends AbstractController
      * @Route("/admin", name="admin_home" )
      */
     public function adminHome(){
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
         return $this->render('admin/home.html.twig');
     }
 
@@ -35,6 +36,9 @@ class AdminController extends AbstractController
      * @Route("/admin/training/toevoegen", name="admin_training_toevoegen")
      */
     public function trainingToevoegen(Request $request){
+
+
+
         $form = $this->createForm(TrainingType::class);
 
         $form->handleRequest($request);
