@@ -2,8 +2,6 @@
 
 namespace App\Entity;
 
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 
@@ -20,9 +18,14 @@ class Person implements UserInterface
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=180, unique=true)
      */
-    private $userName;
+    private $Username;
+
+    /**
+     * @ORM\Column(type="json")
+     */
+    private $roles = [];
 
     /**
      * @var string The hashed password
@@ -36,7 +39,7 @@ class Person implements UserInterface
     private $first_name;
 
     /**
-     * @ORM\Column(type="string", length=20, nullable=true)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $preprovision;
 
@@ -51,19 +54,14 @@ class Person implements UserInterface
     private $date_of_birth;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=6)
      */
     private $gender;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $emailaddress;
-
-    /**
-     * @ORM\Column(type="json")
-     */
-    private $roles = [];
+    private $email_adress;
 
     /**
      * @ORM\Column(type="date", nullable=true)
@@ -71,7 +69,7 @@ class Person implements UserInterface
     private $hiring_date;
 
     /**
-     * @ORM\Column(type="decimal", precision=6, scale=2, nullable=true)
+     * @ORM\Column(type="decimal", precision=10, scale=2, nullable=true)
      */
     private $salary;
 
@@ -81,7 +79,7 @@ class Person implements UserInterface
     private $street;
 
     /**
-     * @ORM\Column(type="string", length=6, nullable=true)
+     * @ORM\Column(type="string", length=7, nullable=true)
      */
     private $postal_code;
 
@@ -89,22 +87,6 @@ class Person implements UserInterface
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $place;
-
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Lesson", mappedBy="instructor_id")
-     */
-    private $lessons;
-
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Registration", mappedBy="member_id")
-     */
-    private $registrations;
-
-    public function __construct()
-    {
-        $this->lessons = new ArrayCollection();
-        $this->registrations = new ArrayCollection();
-    }
 
     public function getId(): ?int
     {
@@ -118,16 +100,34 @@ class Person implements UserInterface
      */
     public function getUsername(): string
     {
-        return (string)$this->userName;
+        return (string) $this->Username;
     }
 
-    public function setUserName(string $userName): self
+    public function setUsername(string $Username): self
     {
-        $this->userName = $userName;
+        $this->Username = $Username;
 
         return $this;
     }
 
+    /**
+     * @see UserInterface
+     */
+    public function getRoles(): array
+    {
+        $roles = $this->roles;
+        // guarantee every user at least has ROLE_USER
+        $roles[] = 'ROLE_USER';
+
+        return array_unique($roles);
+    }
+
+    public function setRoles(array $roles): self
+    {
+        $this->roles = $roles;
+
+        return $this;
+    }
 
     /**
      * @see UserInterface
@@ -142,6 +142,23 @@ class Person implements UserInterface
         $this->password = $password;
 
         return $this;
+    }
+
+    /**
+     * @see UserInterface
+     */
+    public function getSalt()
+    {
+        // not needed when using the "bcrypt" algorithm in security.yaml
+    }
+
+    /**
+     * @see UserInterface
+     */
+    public function eraseCredentials()
+    {
+        // If you store any temporary, sensitive data on the user, clear it here
+        // $this->plainPassword = null;
     }
 
     public function getFirstName(): ?string
@@ -204,33 +221,14 @@ class Person implements UserInterface
         return $this;
     }
 
-    public function getEmailaddress(): ?string
+    public function getEmailAdress(): ?string
     {
-        return $this->emailaddress;
+        return $this->email_adress;
     }
 
-    public function setEmailaddress(string $emailaddress): self
+    public function setEmailAdress(string $email_adress): self
     {
-        $this->emailaddress = $emailaddress;
-
-        return $this;
-    }
-
-    /**
-     * @see UserInterface
-     */
-    public function getRoles(): array
-    {
-        $roles = $this->roles;
-        // guarantee every user at least has ROLE_USER
-        $roles[] = 'ROLE_USER';
-
-        return array_unique($roles);
-    }
-
-    public function setRoles(array $roles): self
-    {
-        $this->roles = $roles;
+        $this->email_adress = $email_adress;
 
         return $this;
     }
@@ -240,7 +238,7 @@ class Person implements UserInterface
         return $this->hiring_date;
     }
 
-    public function setHiringDate(\DateTimeInterface $hiring_date): self
+    public function setHiringDate(?\DateTimeInterface $hiring_date): self
     {
         $this->hiring_date = $hiring_date;
 
@@ -293,84 +291,5 @@ class Person implements UserInterface
         $this->place = $place;
 
         return $this;
-    }
-
-    /**
-     * @return Collection|Lesson[]
-     */
-    public function getLessons(): Collection
-    {
-        return $this->lessons;
-    }
-
-    public function addLessons(Lesson $lesson): self
-    {
-        if (!$this->lessons->contains($lesson)) {
-            $this->lessons[] = $lesson;
-            $lesson->setInstructorId($this);
-        }
-
-        return $this;
-    }
-
-    public function removeLessons(Lesson $lesson): self
-    {
-        if ($this->lessons->contains($lesson)) {
-            $this->lessons->removeElement($lesson);
-            // set the owning side to null (unless already changed)
-            if ($lesson->getInstructorId() === $this) {
-                $lesson->setInstructorId(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|Registration[]
-     */
-    public function getRegistrations(): Collection
-    {
-        return $this->registrations;
-    }
-
-    public function addRegistration(Registration $registration): self
-    {
-        if (!$this->registrations->contains($registration)) {
-            $this->registrations[] = $registration;
-            $registration->setMemberId($this);
-        }
-
-        return $this;
-    }
-
-    public function removeRegistration(Registration $registration): self
-    {
-        if ($this->registrations->contains($registration)) {
-            $this->registrations->removeElement($registration);
-            // set the owning side to null (unless already changed)
-            if ($registration->getMemberId() === $this) {
-                $registration->setMemberId(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * @see UserInterface
-     */
-    public function getSalt()
-    {
-        // not needed when using the "bcrypt" algorithm in security.yaml
-    }
-
-    /**
-     * @see UserInterface
-     */
-    public function eraseCredentials()
-    {
-        // If you store any temporary, sensitive data on the user, clear it here
-        // $this->plainPassword = null;
     }
 }

@@ -21,19 +21,26 @@
                 </div>
                 <div class="col-lg">
                     <div class="float-right">
-                        <p class="text-danger text-right">
-                            Welkom
-                            <br>
-                            - role -
+                        <p class="text-danger text-center">
+                            {% if app.user %}
+                                Welkom {{ app.user.firstName }}
+                                <br>
+                                {{ app.user.roles[0]|lower }}
+                                <br>
+                                <button type="button" class="btn btn-light"
+                                        onclick="location.href='{{ path('app_logout') }}'" name="uilog">uitloggen
+                                </button>
+                            {% endif %}
+
                         </p>
-                        <button type="button" class="btn btn-light" name="inlog">uitloggen</button>
                     </div>
                 </div>
             </div>
         </div>
+        </div>
     </header>
     <hr class="border border-danger m-2">
-    {% endblock %}
+{% endblock %}
 {% block navbar %}
     <div class="container mt-2 mb-2 p-0">
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -49,7 +56,7 @@
             </div>
         </nav>
     </div>
-    {% endblock %}
+{% endblock %}
 {% block flash %}
     <div class="container p-0">
         {% for msg in app.session.flashBag.get('success') %}
