@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block nav %}
+    <li class="nav-item">
+        <a class="nav-link" href="{{ path('instr_home') }}">Home</a>
+    </li>
+    <li class="nav-item active">
+        <a class="nav-link" href="{{ path('instr_plan_les') }}">Plannen lessen<span class="sr-only">(current)</span></a>
+    </li>
+
+    <li class="nav-item">
+        <a class="nav-link" href="{{ path('gedragsregels') }}">Lessen beheer</a>
+    </li>
+{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col">
+            <h1 class="text-danger">Plan Les</h1>
+            {{ form_start(lesForm) }}
+            {{ form_widget(lesForm) }}
+            <button type="submit" class="btn btn-danger">Opslaan</button>
+            {{ form_end(lesForm) }}
+        </div>
+    </div>
+{% endblock %}

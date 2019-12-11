@@ -26,7 +26,7 @@ class AdminController extends AbstractController
      * @Route("/admin/training-overzicht", name="admin_training_overzicht")
      */
     public function trainingOverzicht(){
-
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
         $trainingen = $this->getDoctrine()->getRepository(Training::class)->findAll();
 
        return $this->render('admin/training-overzicht.html.twig', ["trainingen"=>$trainingen]);
@@ -37,7 +37,7 @@ class AdminController extends AbstractController
      */
     public function trainingToevoegen(Request $request){
 
-
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
 
         $form = $this->createForm(TrainingType::class);
 
@@ -61,6 +61,7 @@ class AdminController extends AbstractController
      * @Route("/admin/training/aanpassen/{id}", name="admin_training_aanpassen")
      */
     public function trainingAanpassen(Request $request, $id){
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
         $em = $this->getDoctrine()->getManager();
         $training = $em->getRepository(Training::class)->find($id);
 
@@ -87,7 +88,7 @@ class AdminController extends AbstractController
      * @Route("/admin/training/verwijder/{id}", name="admin_training_verwijder")
      */
     public function trainingVerwijder($id){
-
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
         $em = $this->getDoctrine()->getManager();
         $training = $em->getRepository(Training::class)->find($id);
 

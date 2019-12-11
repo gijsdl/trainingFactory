@@ -27,8 +27,12 @@
                                 <br>
                                 {{ app.user.roles[0]|lower }}
                                 <br>
-                                <button type="button" class="btn btn-light"
-                                        onclick="location.href='{{ path('app_logout') }}'" name="uilog">uitloggen
+                                <button type="button" class="btn btn-danger mt-1"
+                                        onclick="location.href='{{ path('app_logout') }}'" name="uitlog">Uitloggen
+                                </button>
+                            {% else %}
+                                <button type="button" class="btn btn-danger mt-2"
+                                        onclick="location.href='{{ path('app_login') }}'" name="login ">Inloggen
                                 </button>
                             {% endif %}
 
