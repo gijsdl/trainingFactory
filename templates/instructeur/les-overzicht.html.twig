@@ -1,0 +1,71 @@
+{% extends 'base.html.twig.' %}
+
+{% block nav %}
+    <li class="nav-item">
+        <a class="nav-link" href="{{ path('instr_home') }}">Home</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="{{ path('instr_les_plan') }}">Plannen lessen</a>
+    </li>
+
+    <li class="nav-item active">
+        <a class="nav-link" href="{{ path('instr_les_overzicht') }}">Lessen beheer<span class="sr-only">(current)</span></a>
+    </li>
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th>tijd</th>
+                        <th>datum</th>
+                        <th>locatie</th>
+                        <th>max personen</th>
+                        <th>training</th>
+                        <th>instructeur</th>
+                        <th>wijzig</th>
+                        <th>verwijder</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for lesson in lessons %}
+                        <tr>
+                            <td>{{ lesson.time|date('H:i') }}</td>
+                            <td>{{ lesson.date|date('d-m-Y') }}</td>
+                            <td>{{ lesson.location }}</td>
+                            <td>{{ lesson.maxPersons }}</td>
+                            <td>{{ lesson.instructorId.firstName }}</td>
+                            <td>{{ lesson.trainingId.name }}</td>
+                            <td><button class="btn btn-danger" onclick="location.href='{{ path('instr_les_wijzig', {id:lesson.id}) }}';">aanpassen</button></td>
+                            <td><button class="btn btn-danger" data-toggle="modal" data-target="#verwijder{{ lesson.id }}">verwijderen</button></td>
+
+                            <div class="modal fade" id="verwijder{{ lesson.id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalCenterTitle">Modal title</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            Weet u zeker dat u dit wilt verwijderen?
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">nee</button>
+                                            <button type="button" class="btn btn-danger" onclick="location.href='{{ path('instr_les_verwijder',{id:lesson.id}) }}';">Ja</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+{% endblock %}

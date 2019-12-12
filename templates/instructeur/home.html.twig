@@ -1,15 +1,15 @@
-{% extends 'base.html.twig' %}
+{% extends 'base.html.twig.' %}
 
 {% block nav %}
     <li class="nav-item active">
         <a class="nav-link" href="{{ path('instr_home') }}">Home<span class="sr-only">(current)</span></a>
     </li>
     <li class="nav-item">
-        <a class="nav-link" href="{{ path('instr_plan_les') }}">Plannen lessen</a>
+        <a class="nav-link" href="{{ path('instr_les_plan') }}">Plannen lessen</a>
     </li>
 
     <li class="nav-item">
-        <a class="nav-link" href="{{ path('gedragsregels') }}">Lessen beheer</a>
+        <a class="nav-link" href="{{ path('instr_les_overzicht') }}">Lessen beheer</a>
     </li>
 {% endblock %}
 
