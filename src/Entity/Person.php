@@ -3,10 +3,13 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\PersonRepository")
+ * @UniqueEntity(fields={"Username"}, message="There is already an account with this Username")
  */
 class Person implements UserInterface
 {
@@ -19,6 +22,7 @@ class Person implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=180, unique=true)
+     *  @Assert\NotBlank(message="vul een gebruikersnaam in")
      */
     private $Username;
 
@@ -30,11 +34,16 @@ class Person implements UserInterface
     /**
      * @var string The hashed password
      * @ORM\Column(type="string")
+     * @Assert\Length(
+     *      min = 6,
+     *      minMessage = "uw wachtwoord moet minimaal {{ limit }} characters lang zijn"
+     * )
      */
     private $password;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(message="vul uw naam in")
      */
     private $first_name;
 
@@ -45,6 +54,7 @@ class Person implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(message="vul uw achternaam in")
      */
     private $last_name;
 
@@ -60,6 +70,10 @@ class Person implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=255)
+     * * @Assert\Email(
+     *     message = "de email '{{ value }}' is geen geldige email.",
+     *     checkMX = true
+     * )
      */
     private $email_adress;
 
@@ -75,16 +89,19 @@ class Person implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Assert\NotBlank(message="vul uw straatnaam en nummer in")
      */
     private $street;
 
     /**
      * @ORM\Column(type="string", length=7, nullable=true)
+     * @Assert\NotBlank(message="vul uw postcode in in")
      */
     private $postal_code;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Assert\NotBlank(message="vul de naam van uw woonplaats in")
      */
     private $place;
 

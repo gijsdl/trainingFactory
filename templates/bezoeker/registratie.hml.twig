@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+{% block nav %}
+    <li class="nav-item">
+        <a class="nav-link" href="{{ path('home') }}">Home</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="{{ path('training_aanbod') }}">Trainings Aanbod</a>
+    </li>
+    <li class="nav-item active">
+        <a class="nav-link" href="{{ path('registratie') }}">Lid Worden<span class="sr-only">(current)</span></a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="{{ path('gedragsregels') }}">Gedragsregels</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="{{ path('contact') }}">Lokatie & contact</a>
+    </li>
+{% endblock %}
+{% block content %}
+    <div class="row">
+        <div class="col">
+            <h1 class="text-danger">Registreer</h1>
+            {{ form_start(lidForm) }}
+            {{ form_widget(lidForm) }}
+            <button type="submit" class="btn btn-danger">Opslaan</button>
+            {{ form_end(lidForm) }}
+        </div>
+    </div>
+{% endblock %}

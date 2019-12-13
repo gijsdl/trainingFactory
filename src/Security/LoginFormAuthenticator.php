@@ -105,6 +105,9 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator implements P
             case "ROLE_INSTR":
                 return new RedirectResponse($this->router->generate('instr_home'));
                 break;
+            case "ROLE_LID":
+                return new RedirectResponse($this->router->generate('lid_home'));
+                break;
             default: return new RedirectResponse($this->router->generate('home'));
 
         }

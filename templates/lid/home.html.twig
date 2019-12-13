@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+{% block nav %}
+    <li class="nav-item active">
+        <a class="nav-link" href="{{ path('lid_home') }}">Home<span class="sr-only">(current)</span></a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="{{ path('instr_les_plan') }}">Inschrijven op les</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="{{ path('instr_les_overzicht') }}">Overzicht inschrijvingen</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="{{ path('lid_wijzig',{id:app.user.id}) }}">Gegevens wijzigen</a>
+    </li>
+{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-7 offset-2">
+            <h1 class="text-danger">Welkom Lid</h1>
+            <p>druk op een van de knoppen in de navigatiebalk om verder te gaan</p>
+        </div>
+    </div>
+{% endblock %}
