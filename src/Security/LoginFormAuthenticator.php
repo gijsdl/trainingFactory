@@ -95,9 +95,7 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator implements P
             return new RedirectResponse($targetPath);
         }
         $user = $token->getUser();
-//        if($user->getRoles()[0] == "ROLE_ADMIN"){
-//            return new RedirectResponse($this->router->generate('admin_home'));
-//        }
+
         switch ($user->getRoles()[0]){
             case "ROLE_ADMIN":
                 return new RedirectResponse($this->router->generate('admin_home'));
@@ -109,6 +107,7 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator implements P
                 return new RedirectResponse($this->router->generate('lid_home'));
                 break;
             default: return new RedirectResponse($this->router->generate('home'));
+            break;
 
         }
 

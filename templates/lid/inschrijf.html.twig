@@ -1,0 +1,60 @@
+{% extends 'base.html.twig' %}
+{% block nav %}
+    <li class="nav-item">
+        <a class="nav-link" href="{{ path('lid_home') }}">Home</a>
+    </li>
+    <li class="nav-item active">
+        <a class="nav-link" href="{{ path('lid_les_overzicht', {date:"now"|date('y-m-d')}) }}">Inschrijven op les<span
+                    class="sr-only">(current)</span></a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="{{ path('instr_les_overzicht') }}">Overzicht inschrijvingen</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="{{ path('lid_wijzig',{id:app.user.id}) }}">Gegevens wijzigen</a>
+    </li>
+{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col">
+            <h1 class="text-danger">Inschrijven</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            {% for i in 0..10 %}
+                {% set date = "now"|date_modify("+"~i~" day")|date("d/m") %}
+                {% set dateButton = "now"|date_modify("+"~i~" day")|date("Y/m/d") %}
+            <button class="btn btn-danger" onclick="location.href='{{ path('lid_les_overzicht', {date:dateButton|date('y-m-d')}) }}';">{{ date }}</button>
+            {% endfor %}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <table class="table">
+                <thead>
+                <th>tijd</th>
+                <th>training</th>
+                <th>instructeur</th>
+                <th>locatie</th>
+                <th>inschrijven</th>
+                </thead>
+                <tbody>
+                {% for lesson in lessons %}
+                    <tr>
+                        <td>{{ lesson.time|date('H:i') }}</td>
+                        <td>{{ lesson.trainingId.name }}</td>
+                        <td>{{ lesson.instructorId.firstName }}</td>
+                        <td>{{ lesson.location }}</td>
+                        <td><button class="btn btn-danger" onclick="location.href='{{ path('lid_inschrijven',{id:lesson.id}) }}';">inschrijven</button> </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}
+
+
+

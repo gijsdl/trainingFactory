@@ -12,6 +12,7 @@ use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Mapping\Entity;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -25,9 +26,12 @@ class LesType extends AbstractType
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $date = date('Y');
+        $dateFuture = date('Y', strtotime('+2 years'));
+
         $builder
             ->add('time',null, ['label'=>'Tijd'])
-            ->add('date', null, ['label'=>'datum', 'format' => 'dd MM yyyy'])
+            ->add('date', DateType::class, ['years' => range($date, $dateFuture), 'format' => 'dd MM yyyy'])
             ->add('location', null, ['label'=>'locatie'])
             ->add('max_persons', null, ['label'=>'max personen'])
             ->add('training_id', EntityType::class, [

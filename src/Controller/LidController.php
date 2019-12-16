@@ -4,7 +4,9 @@
 namespace App\Controller;
 
 
+use App\Entity\Lesson;
 use App\Entity\Person;
+use App\Entity\Registration;
 use App\Form\LidType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -27,6 +29,8 @@ class LidController extends AbstractController
      */
     public function lidWijzig(Request $request, UserPasswordEncoderInterface $encoder, $id)
     {
+
+        $this->denyAccessUnlessGranted("ROLE_LID");
         $lid = $this->getDoctrine()->getRepository(Person::class)->find($id);
         $form = $this->createForm(LidType::class, $lid);
 
@@ -42,10 +46,42 @@ class LidController extends AbstractController
 
             $this->addFlash('success', 'Uw account is gewijzigd.');
 
+
             return $this->redirectToRoute('lid_home');
         }
 
         return $this->render('bezoeker/registratie.hml.twig', ['lidForm' => $form->createView()]);
+    }
+
+    /**
+     * @Route("/lid/lesoverzicht/{date}", name="lid_les_overzicht")
+     */
+    public function lidLesOverzicht($date)
+    {
+        $this->denyAccessUnlessGranted("ROLE_LID");
+        $em = $this->getDoctrine()->getManager();
+        $date = new \DateTime($date);
+        $lessons =$em->getRepository(Lesson::class)->findByDate($date);
+        return $this->render('lid/inschrijf.html.twig', ["lessons"=>$lessons]);
+    }
+
+    /**
+     * @Route("/lid/inschrijven/{id}", name="lid_inschrijven")
+     */
+    public function lidInschrijven($id){
+        $this->denyAccessUnlessGranted("ROLE_LID");
+        $em = $this->getDoctrine()->getManager();
+
+        $lesson =$em->getRepository(Lesson::class)->find($id);
+        $registration = new Registration();
+        $registration->setLessonId($lesson);
+        $registration->setMemberId($this->getUser());
+        $em->persist($registration);
+        $em->flush();
+
+        $this->addFlash('success', 'u bent aangemeld');
+
+        return $this->redirectToRoute('lid_home');
     }
 
 }
