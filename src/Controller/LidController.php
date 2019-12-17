@@ -61,27 +61,49 @@ class LidController extends AbstractController
         $this->denyAccessUnlessGranted("ROLE_LID");
         $em = $this->getDoctrine()->getManager();
         $date = new \DateTime($date);
-        $lessons =$em->getRepository(Lesson::class)->findByDate($date);
-        return $this->render('lid/inschrijf.html.twig', ["lessons"=>$lessons]);
+        $lessons = $em->getRepository(Lesson::class)->findByDate($date);
+
+        return $this->render('lid/inschrijf.html.twig', ["lessons" => $lessons]);
     }
 
     /**
      * @Route("/lid/inschrijven/{id}", name="lid_inschrijven")
      */
-    public function lidInschrijven($id){
+    public function lidInschrijven($id)
+    {
         $this->denyAccessUnlessGranted("ROLE_LID");
         $em = $this->getDoctrine()->getManager();
 
-        $lesson =$em->getRepository(Lesson::class)->find($id);
-        $registration = new Registration();
-        $registration->setLessonId($lesson);
-        $registration->setMemberId($this->getUser());
-        $em->persist($registration);
-        $em->flush();
+        $lesson = $em->getRepository(Lesson::class)->find($id);
 
-        $this->addFlash('success', 'u bent aangemeld');
+        foreach ($lesson->getRegistrations() as $registration) {
+            if ($registration->getMemberId() == $this->getUser()) {
+                $this->addFlash('danger', 'u heeft zich al ingeschreven.');
+                $date = $lesson->getDate()->format('y-m-d');
+                return $this->redirectToRoute('lid_les_overzicht', array('date' => $date));
+            }
+        }
 
-        return $this->redirectToRoute('lid_home');
+        if ($lesson->getDate()->format('y-m-d') < date('y-m-d')) {
+            $this->addFlash('danger', 'deze les is al voorbij');
+            $date = date('y-m-d');
+            return $this->redirectToRoute('lid_les_overzicht', array('date' => $date));
+
+        } elseif ($lesson->getRegistrations()->count() < $lesson->getMaxPersons()) {
+            $registration = new Registration();
+            $registration->setLessonId($lesson);
+            $registration->setMemberId($this->getUser());
+            $em->persist($registration);
+            $em->flush();
+
+            $this->addFlash('success', 'u bent aangemeld');
+            return $this->redirectToRoute('lid_home');
+        } else {
+            $this->addFlash('danger', 'deze les is al vol');
+            $date = $lesson->getDate()->format('y-m-d');
+            return $this->redirectToRoute('lid_les_overzicht', array('date' => $date));
+        }
+
     }
 
 }
