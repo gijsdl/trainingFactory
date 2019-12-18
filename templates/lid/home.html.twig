@@ -10,7 +10,29 @@
         <a class="nav-link" href="{{ path('instr_les_overzicht') }}">Overzicht inschrijvingen</a>
     </li>
     <li class="nav-item">
-        <a class="nav-link" href="{{ path('lid_wijzig',{id:app.user.id}) }}">Gegevens wijzigen</a>
+        <a class="nav-link" data-toggle="modal" data-target="#wijzig" href="#">Gegevens wijzigen</a>
+
+
+        <div class="modal fade" id="wijzig" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalCenterTitle">Modal title</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        Wat wilt u wijzigen?
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">cancel</button>
+                        <button type="button" class="btn btn-danger" onclick="location.href='{{ path('lid_wijzig',{id:app.user.id, password:'true'}) }}';">wachtwoord wijzigen</button>
+                        <button type="button" class="btn btn-danger" onclick="location.href='{{ path('lid_wijzig',{id:app.user.id, password:'false'}) }}';">profiel wijzigen</button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </li>
 {% endblock %}
 

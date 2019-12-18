@@ -8,7 +8,10 @@ use App\Entity\Lesson;
 use App\Entity\Person;
 use App\Entity\Registration;
 use App\Form\LidType;
+use phpDocumentor\Reflection\Types\Boolean;
+use phpDocumentor\Reflection\Types\This;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
@@ -25,32 +28,53 @@ class LidController extends AbstractController
     }
 
     /**
-     * @Route("/lid/wijzig/{id}", name="lid_wijzig")
+     * @Route("/lid/wijzig/{id}/{password}", name="lid_wijzig")
      */
-    public function lidWijzig(Request $request, UserPasswordEncoderInterface $encoder, $id)
+    public function lidWijzig(Request $request, UserPasswordEncoderInterface $encoder, $id, $password)
     {
 
         $this->denyAccessUnlessGranted("ROLE_LID");
         $lid = $this->getDoctrine()->getRepository(Person::class)->find($id);
-        $form = $this->createForm(LidType::class, $lid);
+
+
+        if ($password == "true") {
+            $form = $this->createFormBuilder()
+                ->add('wachtwoord', PasswordType::class, ['mapped' => false, 'help' => 'vul uw huidig wachtwoord in', 'label'=>'huidig wachtwoord'])
+                ->add('password', PasswordType::class, ['label' => 'wachtwoord'])
+            ->getForm();
+        } else {
+            $form = $this->createForm(LidType::class, $lid);
+            $form->remove('username')
+                ->remove('password');
+        }
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $lid = $form->getData();
-            $lid->setRoles(array('ROLE_LID'));
-            $lid->setPassword($encoder->encodePassword($lid, $lid->getPassword()));
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($lid);
-            $em->flush();
 
-            $this->addFlash('success', 'Uw account is gewijzigd.');
+            if ( $encoder->isPasswordValid($this->getUser(), $form->get('wachtwoord')->getData())) {
+
+                if($password == "true") {
+                    $lid->setPassword($encoder->encodePassword($lid, $form->get('password')->getData()));
+                }else{
+                    $lid = $form->getData();
+                }
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($lid);
+                $em->flush();
+
+                $this->addFlash('success', 'Uw account is gewijzigd.');
 
 
-            return $this->redirectToRoute('lid_home');
+                return $this->redirectToRoute('lid_home');
+            } else {
+                $this->addFlash('danger', 'uw wachtwoord is niet correct.');
+
+            }
+
         }
 
-        return $this->render('bezoeker/registratie.hml.twig', ['lidForm' => $form->createView()]);
+        return $this->render('lid/wijzig.html.twig', ['lidForm' => $form->createView()]);
     }
 
     /**

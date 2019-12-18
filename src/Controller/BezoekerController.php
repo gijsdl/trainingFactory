@@ -53,8 +53,10 @@ class BezoekerController extends AbstractController
     public function registratie(Request $request, UserPasswordEncoderInterface $encoder)
     {
         $form = $this->createForm(LidType::class);
+        $form->remove('wachtwoord');
 
         $form->handleRequest($request);
+
 
         if ($form->isSubmitted() && $form->isValid()){
             $lid =$form->getData();

@@ -27,7 +27,7 @@ class Person implements UserInterface
     private $Username;
 
     /**
-     * @ORM\Column(type="json")
+     * @ORM\Column(type="json", unique=true)
      */
     private $roles = [];
 

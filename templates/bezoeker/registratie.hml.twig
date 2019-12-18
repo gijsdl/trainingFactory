@@ -1,19 +1,6 @@
 {% extends 'base.html.twig' %}
 {% block nav %}
-    {% if app.user %}
-        <li class="nav-item">
-            <a class="nav-link" href="{{ path('lid_home') }}">Home</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="{{ path('lid_les_overzicht') }}">Inschrijven op les</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="{{ path('instr_les_overzicht') }}">Overzicht inschrijvingen</a>
-        </li>
-        <li class="nav-item active">
-            <a class="nav-link" href="{{ path('lid_wijzig',{id:app.user.id}) }}">Gegevens wijzigen<span class="sr-only">(current)</span></a>
-        </li>
-    {% else %}
+
     <li class="nav-item">
         <a class="nav-link" href="{{ path('home') }}">Home</a>
     </li>
@@ -29,7 +16,7 @@
     <li class="nav-item">
         <a class="nav-link" href="{{ path('contact') }}">Lokatie & contact</a>
     </li>
-    {% endif %}
+
 {% endblock %}
 {% block content %}
     <div class="row">
