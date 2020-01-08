@@ -50,7 +50,7 @@ class InstructeurController extends AbstractController
      */
     public function instrLesOverzicht(){
         $this->denyAccessUnlessGranted('ROLE_INSTR');
-        $lessons = $this->getDoctrine()->getRepository(Lesson::class)->findAll();
+        $lessons = $this->getDoctrine()->getRepository(Lesson::class)->findBy([],['date'=>'ASC', 'time'=>'ASC']);
 
         return $this->render('instructeur/les-overzicht.html.twig', ["lessons"=>$lessons]);
 
@@ -93,6 +93,17 @@ class InstructeurController extends AbstractController
         $this->addFlash('success', 'Training verwijderd.');
 
         return $this->redirectToRoute('instr_les_overzicht');
+    }
+
+    /**
+     * @Route("/instr/deelnemerslijst/{id}", name="insr_deelnemerslijst")
+     */
+    public function instrDeelnemerslijst($id){
+        $this->denyAccessUnlessGranted("ROLE_INSTR");
+        $em = $this->getDoctrine()->getManager();
+        $lesson = $em->getRepository(Lesson::class)->find($id);
+        $registrations = $lesson->getRegistrations();
+        return $this->render("instructeur/deelnemer.html.twig", ["registrations"=>$registrations]);
     }
 
 }

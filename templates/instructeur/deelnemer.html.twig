@@ -1,0 +1,43 @@
+{% extends 'base.html.twig.' %}
+
+{% block nav %}
+    <li class="nav-item">
+        <a class="nav-link" href="{{ path('instr_home') }}">Home</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="{{ path('instr_les_plan') }}">Plannen lessen</a>
+    </li>
+
+    <li class="nav-item active">
+        <a class="nav-link" href="{{ path('instr_les_overzicht') }}">Lessen beheer<span class="sr-only">(current)</span></a>
+    </li>
+{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col">
+            <h1 class="text-danger">Deelnemerslijst</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <table class="table">
+                <thead>
+                <th>naam</th>
+                <th>geslacht</th>
+                </thead>
+                <tbody>
+                {% for registration in registrations %}
+                <tr>
+                    <td>{{ registration.memberId.firstName ~ " " ~ registration.memberId.preprovision ~ " " ~ registration.memberId.lastName }}</td>
+                    <td>{{ registration.memberId.gender }}</td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}
+
+
+

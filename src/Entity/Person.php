@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -104,6 +106,22 @@ class Person implements UserInterface
      * @Assert\NotBlank(message="vul de naam van uw woonplaats in")
      */
     private $place;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Lesson", mappedBy="instructor_id")
+     */
+    private $lessons;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Registration", mappedBy="member_id")
+     */
+    private $registrations;
+
+    public function __construct()
+    {
+        $this->lessons = new ArrayCollection();
+        $this->registrations = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -307,6 +325,59 @@ class Person implements UserInterface
     {
         $this->place = $place;
 
+        return $this;
+    }
+
+    /**
+     * @return Collection|Lesson[]
+     */
+    public function getLessons(): Collection
+    {
+        return $this->lessons;
+    }
+    public function addLessons(Lesson $lesson): self
+    {
+        if (!$this->lessons->contains($lesson)) {
+            $this->lessons[] = $lesson;
+            $lesson->setInstructorId($this);
+        }
+        return $this;
+    }
+    public function removeLessons(Lesson $lesson): self
+    {
+        if ($this->lessons->contains($lesson)) {
+            $this->lessons->removeElement($lesson);
+            // set the owning side to null (unless already changed)
+            if ($lesson->getInstructorId() === $this) {
+                $lesson->setInstructorId(null);
+            }
+        }
+        return $this;
+    }
+    /**
+     * @return Collection|Registration[]
+     */
+    public function getRegistrations(): Collection
+    {
+        return $this->registrations;
+    }
+    public function addRegistration(Registration $registration): self
+    {
+        if (!$this->registrations->contains($registration)) {
+            $this->registrations[] = $registration;
+            $registration->setMemberId($this);
+        }
+        return $this;
+    }
+    public function removeRegistration(Registration $registration): self
+    {
+        if ($this->registrations->contains($registration)) {
+            $this->registrations->removeElement($registration);
+            // set the owning side to null (unless already changed)
+            if ($registration->getMemberId() === $this) {
+                $registration->setMemberId(null);
+            }
+        }
         return $this;
     }
 }

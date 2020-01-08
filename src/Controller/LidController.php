@@ -121,13 +121,39 @@ class LidController extends AbstractController
             $em->flush();
 
             $this->addFlash('success', 'u bent aangemeld');
-            return $this->redirectToRoute('lid_home');
+            return $this->redirectToRoute('lid_inschrijf_overzicht');
         } else {
             $this->addFlash('danger', 'deze les is al vol');
             $date = $lesson->getDate()->format('y-m-d');
             return $this->redirectToRoute('lid_les_overzicht', array('date' => $date));
         }
 
+    }
+
+    /**
+     * @Route("/lid/inschrijf_overzicht", name="lid_inschrijf_overzicht")
+     */
+    public function lidInschrijfOverzicht(){
+        $this->denyAccessUnlessGranted("ROLE_LID");
+        $em = $this->getDoctrine()->getManager();
+        $lid = $em->getRepository(Person::class)->find($this->getUser());
+        $registrations = $lid->getRegistrations();
+        $lessons = array();
+        return $this->render('lid/inschrijf-overzicht.html.twig', ["lessons"=> $lessons, "registrations"=>$registrations]);
+    }
+
+    /**
+     * @Route("/lid/verwijder_registration/{id}", name="lid_registration_verwijder")
+     */
+    public function verwijderRegistration($id){
+        $this->denyAccessUnlessGranted("ROLE_LID");
+        $em = $this->getDoctrine()->getManager();
+        $registration = $em->getRepository(Registration::class)->find($id);
+        $em->remove($registration);
+        $em->flush();
+
+        $this->addFlash('success', 'u heeft zich uitgeschreven');
+        return $this->redirectToRoute('lid_inschrijf_overzicht');
     }
 
 }

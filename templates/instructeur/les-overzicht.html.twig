@@ -26,6 +26,7 @@
                         <th>max personen</th>
                         <th>training</th>
                         <th>instructeur</th>
+                        <th>deelnemers</th>
                         <th>wijzig</th>
                         <th>verwijder</th>
                     </tr>
@@ -39,6 +40,7 @@
                             <td>{{ lesson.maxPersons }}</td>
                             <td>{{ lesson.instructorId.firstName }}</td>
                             <td>{{ lesson.trainingId.name }}</td>
+                            <td><button class="btn btn-danger" onclick="location.href='{{ path('insr_deelnemerslijst', {id:lesson.id}) }}';">deelnemers</button></td>
                             <td><button class="btn btn-danger" onclick="location.href='{{ path('instr_les_wijzig', {id:lesson.id}) }}';">aanpassen</button></td>
                             <td><button class="btn btn-danger" data-toggle="modal" data-target="#verwijder{{ lesson.id }}">verwijderen</button></td>
 
