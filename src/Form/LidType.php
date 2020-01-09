@@ -23,14 +23,6 @@ class LidType extends AbstractType
         $date = date('Y-m-d H:i:s');
         $builder
             ->add('username', null, ['label' => 'gebruikersnaam'])
-//        ->add('agreeTerms', CheckboxType::class, [
-//            'mapped' => false,
-//            'constraints' => [
-//                new IsTrue([
-//                    'message' => 'You should agree to our terms.',
-//                ]),
-//            ],
-//        ])
             ->add('wachtwoord', PasswordType::class, ['mapped' => false, 'help' => 'vul uw huidig wachtwoord in', 'label'=>'huidig wachtwoord'])
             ->add('password', PasswordType::class, ['label' => 'wachtwoord'])
             ->add('first_name', null, ['label' => 'voornaam'])

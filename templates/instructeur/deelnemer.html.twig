@@ -20,18 +20,26 @@
         </div>
     </div>
     <div class="row">
-        <div class="col">
+        <div class="col mt-2">
             <table class="table">
                 <thead>
                 <th>naam</th>
                 <th>geslacht</th>
+                <th>betaald</th>
+                <th>betalen</th>
                 </thead>
                 <tbody>
                 {% for registration in registrations %}
-                <tr>
-                    <td>{{ registration.memberId.firstName ~ " " ~ registration.memberId.preprovision ~ " " ~ registration.memberId.lastName }}</td>
-                    <td>{{ registration.memberId.gender }}</td>
-                </tr>
+                    <tr>
+                        <td>{{ registration.memberId.firstName ~ " " ~ registration.memberId.preprovision ~ " " ~ registration.memberId.lastName }}</td>
+                        <td>{{ registration.memberId.gender }}</td>
+                        {% if (registration.payment) %}
+                            <td>ja</td>
+                        {% else %}
+                            <td>nee</td>
+                        {% endif %}
+                        <td><button class="btn btn-danger" onclick="location.href='{{ path('instr_betalen', {id: registration.id, lesId: registration.lessonId.id}) }}';">betalen</button> </td>
+                    </tr>
                 {% endfor %}
                 </tbody>
             </table>

@@ -20,12 +20,28 @@ class LessonRepository extends ServiceEntityRepository
         parent::__construct($registry, Lesson::class);
     }
 
-    public function findByDate(\DateTime $date){
+    public function findByDate(\DateTime $date)
+    {
         $qb = $this->createQueryBuilder('l');
         $qb->select('l')
             ->where('l.date = :date')
             ->setParameter('date', $date)
             ->orderBy("l.time");
+
+
+        return $qb->getQuery()->getResult();
+    }
+
+    public function findByBiggerDate(\DateTime $date, $userId)
+    {
+        $qb = $this->createQueryBuilder('l');
+        $qb->select('l')
+            ->where('l.date > :date')
+            ->andWhere('l.instructor_id = :id')
+            ->setParameter('date', $date)
+            ->setParameter("id", $userId)
+            ->orderBy("l.date")
+            ->orderBy('l.time');
 
 
         return $qb->getQuery()->getResult();
