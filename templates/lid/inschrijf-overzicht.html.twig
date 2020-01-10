@@ -30,11 +30,11 @@
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">cancel</button>
                         <button type="button" class="btn btn-danger"
-                                onclick="location.href='{{ path('lid_wijzig',{id:app.user.id, password:'true'}) }}';">
+                                onclick="location.href='{{ path('lid_wijzig',{password:'true'}) }}';">
                             wachtwoord wijzigen
                         </button>
                         <button type="button" class="btn btn-danger"
-                                onclick="location.href='{{ path('lid_wijzig',{id:app.user.id, password:'false'}) }}';">
+                                onclick="location.href='{{ path('lid_wijzig',{password:'false'}) }}';">
                             profiel wijzigen
                         </button>
                     </div>

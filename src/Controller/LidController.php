@@ -12,6 +12,7 @@ use phpDocumentor\Reflection\Types\Boolean;
 use phpDocumentor\Reflection\Types\This;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
@@ -28,19 +29,24 @@ class LidController extends AbstractController
     }
 
     /**
-     * @Route("/lid/wijzig/{id}/{password}", name="lid_wijzig")
+     * @Route("/lid/wijzig/{password}", name="lid_wijzig")
      */
-    public function lidWijzig(Request $request, UserPasswordEncoderInterface $encoder, $id, $password)
+    public function lidWijzig(Request $request, UserPasswordEncoderInterface $encoder, $password)
     {
 
         $this->denyAccessUnlessGranted("ROLE_LID");
-        $lid = $this->getDoctrine()->getRepository(Person::class)->find($id);
+        $lid = $this->getDoctrine()->getRepository(Person::class)->find($this->getUser()->getId());
 
 
         if ($password == "true") {
             $form = $this->createFormBuilder()
                 ->add('wachtwoord', PasswordType::class, ['mapped' => false, 'help' => 'vul uw huidig wachtwoord in', 'label'=>'huidig wachtwoord'])
                 ->add('password', PasswordType::class, ['label' => 'wachtwoord'])
+                ->add('password', RepeatedType::class, [
+                    'type'=> PasswordType::class,
+                    'first_options'  => ['label' => 'wachtwoord'],
+                    'second_options' => ['label' => 'herhaal wachtwoord'],
+                ])
             ->getForm();
         } else {
             $form = $this->createForm(LidType::class, $lid);

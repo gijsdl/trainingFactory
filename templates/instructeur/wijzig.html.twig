@@ -1,13 +1,15 @@
-{% extends 'base.html.twig' %}
+{% extends 'base.html.twig.' %}
+
 {% block nav %}
+    <li class="nav-item">
+        <a class="nav-link" href="{{ path('instr_home') }}">Home</a>
+    </li>
     <li class="nav-item active">
-        <a class="nav-link" href="{{ path('lid_home') }}">Home<span class="sr-only">(current)</span></a>
+        <a class="nav-link" href="{{ path('instr_les_plan') }}">Plannen lessen<span class="sr-only">(current)</span></a>
     </li>
+
     <li class="nav-item">
-        <a class="nav-link" href="{{ path('lid_les_overzicht', {date:"now"|date('y-m-d')}) }}">Inschrijven op les</a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link" href="{{ path('lid_inschrijf_overzicht') }}">Overzicht inschrijvingen</a>
+        <a class="nav-link" href="{{ path('instr_les_overzicht') }}">Lessen beheer</a>
     </li>
     <li class="nav-item">
         <a class="nav-link" data-toggle="modal" data-target="#wijzig" href="#">Gegevens wijzigen</a>
@@ -27,8 +29,8 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">cancel</button>
-                        <button type="button" class="btn btn-danger" onclick="location.href='{{ path('lid_wijzig',{password:'true'}) }}';">wachtwoord wijzigen</button>
-                        <button type="button" class="btn btn-danger" onclick="location.href='{{ path('lid_wijzig',{password:'false'}) }}';">profiel wijzigen</button>
+                        <button type="button" class="btn btn-danger" onclick="location.href='{{ path('instr_wijzig',{password:'true'}) }}';">wachtwoord wijzigen</button>
+                        <button type="button" class="btn btn-danger" onclick="location.href='{{ path('instr_wijzig',{password:'false'}) }}';">profiel wijzigen</button>
                     </div>
                 </div>
             </div>
@@ -38,9 +40,16 @@
 
 {% block content %}
     <div class="row">
-        <div class="col-7 offset-2">
-            <h1 class="text-danger">Welkom Lid</h1>
-            <p>druk op een van de knoppen in de navigatiebalk om verder te gaan</p>
+        <div class="col">
+            <h1 class="text-danger">Registreer</h1>
+            <h4>{{ app.user.username }}</h4>
+            {{ form_start(instrForm) }}
+            {{ form_widget(instrForm) }}
+            <button type="submit" class="btn btn-danger">Opslaan</button>
+            {{ form_end(instrForm) }}
         </div>
     </div>
 {% endblock %}
+
+
+
