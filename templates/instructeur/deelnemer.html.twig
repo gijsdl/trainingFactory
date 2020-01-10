@@ -15,7 +15,8 @@
         <a class="nav-link" data-toggle="modal" data-target="#wijzig" href="#">Gegevens wijzigen</a>
 
 
-        <div class="modal fade" id="wijzig" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal fade" id="wijzig" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+             aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -29,8 +30,14 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">cancel</button>
-                        <button type="button" class="btn btn-danger" onclick="location.href='{{ path('instr_wijzig',{password:'true'}) }}';">wachtwoord wijzigen</button>
-                        <button type="button" class="btn btn-danger" onclick="location.href='{{ path('instr_wijzig',{password:'false'}) }}';">profiel wijzigen</button>
+                        <button type="button" class="btn btn-danger"
+                                onclick="location.href='{{ path('instr_wijzig',{password:'true'}) }}';">wachtwoord
+                            wijzigen
+                        </button>
+                        <button type="button" class="btn btn-danger"
+                                onclick="location.href='{{ path('instr_wijzig',{password:'false'}) }}';">profiel
+                            wijzigen
+                        </button>
                     </div>
                 </div>
             </div>
@@ -60,10 +67,17 @@
                         <td>{{ registration.memberId.gender }}</td>
                         {% if (registration.payment) %}
                             <td>ja</td>
+                            <td><button class="btn btn-danger"
+                                    onclick="location.href='{{ path('instr_niet_betaald', {id: registration.id, lesId: registration.lessonId.id}) }}';">
+                                ongedaan maken
+                        </button></td>
                         {% else %}
                             <td>nee</td>
+                            <td><button class="btn btn-danger"
+                                    onclick="location.href='{{ path('instr_betalen', {id: registration.id, lesId: registration.lessonId.id}) }}';">
+                                betalen
+                            </button></td>
                         {% endif %}
-                        <td><button class="btn btn-danger" onclick="location.href='{{ path('instr_betalen', {id: registration.id, lesId: registration.lessonId.id}) }}';">betalen</button> </td>
                     </tr>
                 {% endfor %}
                 </tbody>

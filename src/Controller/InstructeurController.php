@@ -130,6 +130,21 @@ class InstructeurController extends AbstractController
     }
 
     /**
+     * @Route("/instr/niet-betaald/{id}/{lesId}", name="instr_niet_betaald")
+     */
+    public function instrNietBetaald($id, $lesId){
+
+
+        $em = $this->getDoctrine()->getManager();
+        $registration = $em->getRepository(Registration::class)->find($id);
+        $registration->setPayment(false);
+        $em->flush();
+
+
+        return $this->redirectToRoute('instr_deelnemerslijst',array('id'=>$lesId));
+    }
+
+    /**
      * @Route("/instr/wijzig/{password}", name="instr_wijzig")
      */
     public function lidWijzig(Request $request, UserPasswordEncoderInterface $encoder, $password)
