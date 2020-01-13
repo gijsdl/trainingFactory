@@ -98,4 +98,36 @@ class AdminController extends AbstractController
 
         return $this->redirectToRoute('admin_training_overzicht');
     }
+
+    /**
+     * @Route("/admin/leden", name="admin_leden")
+     */
+    public function leden(){
+        $em = $this->getDoctrine()->getManager();
+        $leden= $em->getRepository(Person::class)->findAllRole("ROLE_LID");
+
+        return $this->render("admin/leden.html.twig",["leden"=>$leden]);
+    }
+
+    /**
+     * @Route("/admin/disable/{id}", name="admin_disable_member")
+     */
+    public function disable($id){
+        $em = $this->getDoctrine()->getManager();
+        $lid = $em->getRepository(Person::class)->find($id);
+        $lid->setEnabled(0);
+        $em->flush();
+        return $this->redirectToRoute("admin_leden");
+    }
+
+    /**
+     * @Route("/admin/enable/{id}", name="admin_enable_member")
+     */
+    public function enable($id){
+        $em = $this->getDoctrine()->getManager();
+        $lid = $em->getRepository(Person::class)->find($id);
+        $lid->setEnabled(1);
+        $em->flush();
+        return $this->redirectToRoute("admin_leden");
+    }
 }

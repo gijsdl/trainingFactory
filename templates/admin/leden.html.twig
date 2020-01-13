@@ -1,0 +1,92 @@
+{% extends 'base.html.twig' %}
+{% block nav %}
+    <li class="nav-item">
+        <a class="nav-link" href="{{ path('admin_home') }}">Home</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="#">instructeurs</a>
+    </li>
+    <li class="nav-item active">
+        <a class="nav-link" href="{{ path('admin_leden') }}">Leden<span class="sr-only">(current)</span></a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="{{ path('admin_training_overzicht') }}">Trainingen</a>
+    </li>
+{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col">
+            <h1 class="text-danger">Leden overzicht</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <table class="table table-responsive">
+                <thead>
+                <th>voornaam</th>
+                <th>tussenvoegsel</th>
+                <th>achternaam</th>
+                <th>geboortedatum</th>
+                <th>geslacht</th>
+                <th>email</th>
+                <th>adres</th>
+                <th>postcode</th>
+                <th>plaatsnaam</th>
+                <th>disable</th>
+                </thead>
+                <tbody>
+                {% for lid in leden %}
+                    <tr>
+                        <td>{{ lid.firstname }}</td>
+                        <td>{{ lid.preprovision }}</td>
+                        <td>{{ lid.lastname }}</td>
+                        <td>{{ lid.dateOfBirth|date('d-m-y') }}</td>
+                        <td>{{ lid.gender }}</td>
+                        <td>{{ lid.emailadress }}</td>
+                        <td>{{ lid.street }}</td>
+                        <td>{{ lid.postalcode }}</td>
+                        <td>{{ lid.place }}</td>
+                        {% if lid.enabled %}
+                            <td><button class="btn btn-danger" data-toggle="modal" data-target="#disable{{ lid.id }}">disable</button></td>
+                        {% else %}
+                            <td><button class="btn btn-danger" data-toggle="modal" data-target="#disable{{ lid.id }}">enable</button></td>
+                        {% endif %}
+
+                        <div class="modal fade" id="disable{{ lid.id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalCenterTitle">Modal title</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        {% if lid.enabled %}
+                                            Weet u zeker dat u deze persoon wilt disablen?
+                                        {% else %}
+                                            Weet u zeker dat u deze persoon wilt enablen?
+                                        {% endif %}
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">nee</button>
+                                        {% if lid.enabled %}
+                                            <button type="button" class="btn btn-danger" onclick="location.href='{{ path('admin_disable_member',{id:lid.id}) }}';">Ja</button>
+                                        {% else %}
+                                            <button type="button" class="btn btn-danger" onclick="location.href='{{ path('admin_enable_member',{id:lid.id}) }}';">Ja</button>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}
+
+
+

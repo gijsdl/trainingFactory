@@ -117,6 +117,11 @@ class Person implements UserInterface
      */
     private $registrations;
 
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $enabled;
+
     public function __construct()
     {
         $this->lessons = new ArrayCollection();
@@ -378,6 +383,18 @@ class Person implements UserInterface
                 $registration->setMemberId(null);
             }
         }
+        return $this;
+    }
+
+    public function getEnabled(): ?bool
+    {
+        return $this->enabled;
+    }
+
+    public function setEnabled(bool $enabled): self
+    {
+        $this->enabled = $enabled;
+
         return $this;
     }
 }

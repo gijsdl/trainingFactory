@@ -53,7 +53,7 @@
     </div>
     <div class="row">
         <div class="col mt-2">
-            <table class="table">
+            <table class="table table-responsive">
                 <thead>
                 <th>naam</th>
                 <th>geslacht</th>
@@ -62,6 +62,7 @@
                 </thead>
                 <tbody>
                 {% for registration in registrations %}
+                    {% if registration.memberId.enabled %}
                     <tr>
                         <td>{{ registration.memberId.firstName ~ " " ~ registration.memberId.preprovision ~ " " ~ registration.memberId.lastName }}</td>
                         <td>{{ registration.memberId.gender }}</td>
@@ -79,6 +80,7 @@
                             </button></td>
                         {% endif %}
                     </tr>
+                    {% endif %}
                 {% endfor %}
                 </tbody>
             </table>

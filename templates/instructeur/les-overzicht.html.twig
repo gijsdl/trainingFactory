@@ -15,7 +15,8 @@
         <a class="nav-link" data-toggle="modal" data-target="#wijzig" href="#">Gegevens wijzigen</a>
 
 
-        <div class="modal fade" id="wijzig" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal fade" id="wijzig" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+             aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -29,8 +30,14 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">cancel</button>
-                        <button type="button" class="btn btn-danger" onclick="location.href='{{ path('instr_wijzig',{password:'true'}) }}';">wachtwoord wijzigen</button>
-                        <button type="button" class="btn btn-danger" onclick="location.href='{{ path('instr_wijzig',{password:'false'}) }}';">profiel wijzigen</button>
+                        <button type="button" class="btn btn-danger"
+                                onclick="location.href='{{ path('instr_wijzig',{password:'true'}) }}';">wachtwoord
+                            wijzigen
+                        </button>
+                        <button type="button" class="btn btn-danger"
+                                onclick="location.href='{{ path('instr_wijzig',{password:'false'}) }}';">profiel
+                            wijzigen
+                        </button>
                     </div>
                 </div>
             </div>
@@ -42,7 +49,7 @@
     <div class="container">
         <div class="row">
             <div class="col">
-                <table class="table">
+                <table class="table table-responsive">
                     <thead>
                     <tr>
                         <th>tijd</th>
@@ -61,13 +68,34 @@
                             <td>{{ lesson.time|date('H:i') }}</td>
                             <td>{{ lesson.date|date('d-m-Y') }}</td>
                             <td>{{ lesson.location }}</td>
-                            <td>{{ lesson.registrations|length }}</td>
+                            {% set count = 0 %}
+                            {% for registration in lesson.registrations %}
+                                {% if registration.memberId.enabled %}
+                                    {% set count = count + 1 %}
+                                {% endif %}
+                            {% endfor %}
+                            <td>{{ count }}</td>
                             <td>{{ lesson.trainingId.name }}</td>
-                            <td><button class="btn btn-danger" onclick="location.href='{{ path('instr_deelnemerslijst', {id:lesson.id}) }}';">deelnemers</button></td>
-                            <td><button class="btn btn-danger" onclick="location.href='{{ path('instr_les_wijzig', {id:lesson.id}) }}';">aanpassen</button></td>
-                            <td><button class="btn btn-danger" data-toggle="modal" data-target="#verwijder{{ lesson.id }}">verwijderen</button></td>
+                            <td>
+                                <button class="btn btn-danger"
+                                        onclick="location.href='{{ path('instr_deelnemerslijst', {id:lesson.id}) }}';">
+                                    deelnemers
+                                </button>
+                            </td>
+                            <td>
+                                <button class="btn btn-danger"
+                                        onclick="location.href='{{ path('instr_les_wijzig', {id:lesson.id}) }}';">
+                                    aanpassen
+                                </button>
+                            </td>
+                            <td>
+                                <button class="btn btn-danger" data-toggle="modal"
+                                        data-target="#verwijder{{ lesson.id }}">verwijderen
+                                </button>
+                            </td>
 
-                            <div class="modal fade" id="verwijder{{ lesson.id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                            <div class="modal fade" id="verwijder{{ lesson.id }}" tabindex="-1" role="dialog"
+                                 aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                                 <div class="modal-dialog modal-dialog-centered" role="document">
                                     <div class="modal-content">
                                         <div class="modal-header">
@@ -80,8 +108,12 @@
                                             Weet u zeker dat u dit wilt verwijderen?
                                         </div>
                                         <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">nee</button>
-                                            <button type="button" class="btn btn-danger" onclick="location.href='{{ path('instr_les_verwijder',{id:lesson.id}) }}';">Ja</button>
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">nee
+                                            </button>
+                                            <button type="button" class="btn btn-danger"
+                                                    onclick="location.href='{{ path('instr_les_verwijder',{id:lesson.id}) }}';">
+                                                Ja
+                                            </button>
                                         </div>
                                     </div>
                                 </div>

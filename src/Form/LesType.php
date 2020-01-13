@@ -41,7 +41,7 @@ class LesType extends AbstractType
             ->add('instructor_id', EntityType::class, [
                 'class' => Person::class,
                 'choice_label' => 'first_name',
-                'choices' => $this->personRepository->findAllInstuctors(),
+                'choices' => $this->personRepository->findAllRole("ROLE_INSTR"),
                 'label'=>'instructeur'
             ]);
     }

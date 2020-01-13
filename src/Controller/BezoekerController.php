@@ -62,6 +62,7 @@ class BezoekerController extends AbstractController
             $lid =$form->getData();
             $lid->setRoles(array('ROLE_LID'));
             $lid->setPassword($encoder->encodePassword($lid, $lid->getPassword()));
+            $lid->setEnabled(1);
             $em = $this->getDoctrine()->getManager();
             $em->persist($lid);
             $em->flush();
