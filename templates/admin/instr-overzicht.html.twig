@@ -1,10 +1,54 @@
 {% extends 'base.html.twig' %}
-
-{% block content %}
-
-{% endblock %}
-
 {% block nav %}
-
+    <li class="nav-item">
+        <a class="nav-link" href="{{ path('admin_home') }}">Home</a>
+    </li>
+    <li class="nav-item active">
+        <a class="nav-link" href="{{ path('admin_instr_overzicht') }}">instructeurs<span class="sr-only">(current)</span></a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="{{ path('admin_leden') }}">Leden</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="{{ path('admin_training_overzicht') }}">Trainingen</a>
+    </li>
 {% endblock %}
+{% block content %}
+    <div class="row">
+        <div class="col">
+            <h1 class="text-danger">Leden overzicht</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <table class="table table-responsive">
+                <thead>
+                <th>naam</th>
+                <th>geboortedatum</th>
+                <th>geslacht</th>
+                <th>email</th>
+                <th>start datum</th>
+                <th>salaris</th>
+                <th>les</th>
+                </thead>
+                <tbody>
+                {% for instructor in instructors %}
+                    <tr>
+                        <td>{{ instructor.firstname ~ " " ~ instructor.preprovision ~ " " ~instructor.lastname  }}</td>
+                        <td>{{ instructor.dateOfBirth|date('d-m-y') }}</td>
+                        <td>{{ instructor.gender }}</td>
+                        <td>{{ instructor.emailadress }}</td>
+                        <td>{{ instructor.hiringDate|date("d-m-y") }}</td>
+                        <td>{{ instructor.salary }}</td>
+
+                        <td><button class="btn btn-danger" onclick="location.href='{{ path('admin_instructor_les', {id: instructor.id}) }}';">les</button> </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}
+
+
 

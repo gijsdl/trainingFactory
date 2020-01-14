@@ -130,4 +130,35 @@ class AdminController extends AbstractController
         $em->flush();
         return $this->redirectToRoute("admin_leden");
     }
+
+    /**
+     * @Route("/admin/lid-les/{id}", name="admin_lid_les")
+     */
+    public function adminLidLes($id){
+        $em = $this->getDoctrine()->getManager();
+        $lid = $em->getRepository(Person::class)->find($id);
+        $registrations = $lid->getRegistrations();
+
+        return $this->render("admin/lid-les.html.twig", ["registrations"=>$registrations, "lid"=>$lid]);
+    }
+
+    /**
+     * @Route("/admin/instr-overzicht", name="admin_instr_overzicht")
+     */
+    public function adminInstrOverzicht(){
+        $em = $this->getDoctrine()->getManager();
+        $instructors = $em->getRepository(Person::class)->findAllRole("ROLE_INSTR");
+        return $this->render("admin/instr-overzicht.html.twig", ["instructors"=>$instructors]);
+    }
+
+    /**
+     * @Route("/admin/instr-les/{id}", name="admin_instructor_les")
+     */
+    public function adminInstrLes($id){
+        $em = $this->getDoctrine()->getManager();
+        $lid = $em->getRepository(Person::class)->find($id);
+        $lesssons = $lid->getLessons();
+
+        return $this->render("admin/instr-les.html.twig", ["lessons"=>$lesssons, "lid"=>$lid]);
+    }
 }

@@ -4,7 +4,7 @@
         <a class="nav-link" href="{{ path('admin_home') }}">Home</a>
     </li>
     <li class="nav-item">
-        <a class="nav-link" href="#">instructeurs</a>
+        <a class="nav-link" href="{{ path('admin_instr_overzicht') }}">instructeurs</a>
     </li>
     <li class="nav-item active">
         <a class="nav-link" href="{{ path('admin_leden') }}">Leden<span class="sr-only">(current)</span></a>
@@ -24,9 +24,7 @@
         <div class="col">
             <table class="table table-responsive">
                 <thead>
-                <th>voornaam</th>
-                <th>tussenvoegsel</th>
-                <th>achternaam</th>
+                <th>naam</th>
                 <th>geboortedatum</th>
                 <th>geslacht</th>
                 <th>email</th>
@@ -34,13 +32,12 @@
                 <th>postcode</th>
                 <th>plaatsnaam</th>
                 <th>disable</th>
+                <th>lessen</th>
                 </thead>
                 <tbody>
                 {% for lid in leden %}
                     <tr>
-                        <td>{{ lid.firstname }}</td>
-                        <td>{{ lid.preprovision }}</td>
-                        <td>{{ lid.lastname }}</td>
+                        <td>{{ lid.firstname ~ " " ~ lid.preprovision ~ " " ~lid.lastname  }}</td>
                         <td>{{ lid.dateOfBirth|date('d-m-y') }}</td>
                         <td>{{ lid.gender }}</td>
                         <td>{{ lid.emailadress }}</td>
@@ -52,6 +49,7 @@
                         {% else %}
                             <td><button class="btn btn-danger" data-toggle="modal" data-target="#disable{{ lid.id }}">enable</button></td>
                         {% endif %}
+                        <td><button class="btn btn-danger" onclick="location.href='{{ path('admin_lid_les', {id: lid.id}) }}';">les</button> </td>
 
                         <div class="modal fade" id="disable{{ lid.id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                             <div class="modal-dialog modal-dialog-centered" role="document">

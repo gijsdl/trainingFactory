@@ -1,10 +1,72 @@
 {% extends 'base.html.twig' %}
+{% block nav %}
+    <li class="nav-item">
+        <a class="nav-link" href="{{ path('admin_home') }}">Home</a>
+    </li>
+    <li class="nav-item active">
+        <a class="nav-link" href="{{ path('admin_instr_overzicht') }}">instructeurs<span
+                    class="sr-only">(current)</span></a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="{{ path('admin_leden') }}">Leden</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="{{ path('admin_training_overzicht') }}">Trainingen</a>
+    </li>
+{% endblock %}
 
 {% block content %}
+    <div class="row">
+        <div class="col">
+            <h1 class="text-danger">{{ lid.firstName ~ " " ~ lid.preprovision ~ " " ~ lid.lastName }}</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <table class="table table-responsive">
+                <thead>
+                <th>datum</th>
+                <th>tijd</th>
+                <th>training</th>
+                <th>instructeur</th>
+                <th>locatie</th>
+                <th>koste</th>
+                <th>totaal</th>
+                </thead>
+                <tbody>
 
+                {% set total = 0 %}
+                {% for lesson in lessons %}
+                    <tr>
+                        <td>{{ lesson.date|date('d-m-y') }}</td>
+                        <td>{{ lesson.time|date('H:i') }}</td>
+                        <td>{{ lesson.trainingId.name }}</td>
+                        <td>{{ lesson.instructorId.firstName }}</td>
+                        <td>{{ lesson.location }}</td>
+                        <td>{{ lesson.trainingId.cost }}</td>
+                        {% set lessTotal = 0 %}
+                        {% for registration in lesson.registrations %}
+                            {% if (registration.payment) %}
+                                {% set lessTotal = lessTotal + lesson.trainingId.cost %}
+                            {% endif %}
+                        {% endfor %}
+                        <td>{{ lessTotal }}</td>
+                        {% set total = total +lessTotal %}
+                    </tr>
+                {% endfor %}
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>{{ total }}</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
 {% endblock %}
 
-{% block nav %}
-
-{% endblock %}
 
