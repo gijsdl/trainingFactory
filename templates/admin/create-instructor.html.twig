@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block nav %}
+    <li class="nav-item">
+        <a class="nav-link" href="{{ path('admin_home') }}">Home</a>
+    </li>
+    <li class="nav-item active">
+        <a class="nav-link" href="{{ path('admin_instr_overzicht') }}">instructeurs<span
+                    class="sr-only">(current)</span></a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="{{ path('admin_leden') }}">Leden</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="{{ path('admin_training_overzicht') }}">Trainingen</a>
+    </li>
+{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col">
+            <h1 class="text-danger">Instructeur aanmaken</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            {{ form_start(instructorForm) }}
+            {{ form_widget(instructorForm) }}
+            <button type="submit" class="btn btn-danger">opslaan</button>
+            {{ form_end(instructorForm) }}
+        </div>
+    </div>
+{% endblock %}
+
+
+

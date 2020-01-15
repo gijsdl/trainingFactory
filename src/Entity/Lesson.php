@@ -30,12 +30,6 @@ class Lesson
     private $date;
 
     /**
-     * @ORM\Column(type="string", length=255)
-     * @Assert\NotBlank(message="vul een locatie in")
-     */
-    private $location;
-
-    /**
      * @ORM\Column(type="integer")
      * @Assert\NotBlank(message="vul een aantal in")
      */
@@ -57,6 +51,12 @@ class Lesson
      * @ORM\OneToMany(targetEntity="App\Entity\Registration", mappedBy="lesson_id")
      */
     private $registrations;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Location", inversedBy="lesson")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $location;
 
     public function __construct()
     {
@@ -88,18 +88,6 @@ class Lesson
     public function setDate(\DateTimeInterface $date): self
     {
         $this->date = $date;
-
-        return $this;
-    }
-
-    public function getLocation(): ?string
-    {
-        return $this->location;
-    }
-
-    public function setLocation(string $location): self
-    {
-        $this->location = $location;
 
         return $this;
     }
@@ -167,6 +155,18 @@ class Lesson
                 $registration->setLessonId(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getLocation(): ?Location
+    {
+        return $this->location;
+    }
+
+    public function setLocation(?Location $location): self
+    {
+        $this->location = $location;
 
         return $this;
     }

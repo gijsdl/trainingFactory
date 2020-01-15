@@ -8,6 +8,7 @@ use App\Entity\Lesson;
 use App\Entity\Person;
 use App\Entity\Registration;
 use App\Form\InstrType;
+use App\Form\InstructorType;
 use App\Form\LesType;
 use App\Form\LidType;
 use App\Form\RegistrationType;
@@ -165,9 +166,11 @@ class InstructeurController extends AbstractController
                 ])
                 ->getForm();
         } else {
-            $form = $this->createForm(InstrType::class, $lid);
+            $form = $this->createForm(InstructorType::class, $lid);
             $form->remove('username')
-                ->remove('password');
+                ->remove('password')
+                ->remove("hiringDate")
+                ->remove("salary");
         }
 
         $form->handleRequest($request);

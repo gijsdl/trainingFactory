@@ -36,7 +36,7 @@ class LessonRepository extends ServiceEntityRepository
     {
         $qb = $this->createQueryBuilder('l');
         $qb->select('l')
-            ->where('l.date > :date')
+            ->where('l.date >= :date')
             ->andWhere('l.instructor_id = :id')
             ->setParameter('date', $date)
             ->setParameter("id", $userId)

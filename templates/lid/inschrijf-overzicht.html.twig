@@ -19,7 +19,7 @@
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalCenterTitle">Modal title</h5>
+                        <h5 class="modal-title" id="exampleModalCenterTitle">wijzig</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -69,14 +69,14 @@
                         <td>{{ registration.lessonId.time|date('H:i') }}</td>
                         <td>{{ registration.lessonId.trainingId.name }}</td>
                         <td>{{ registration.lessonId.instructorId.firstName }}</td>
-                        <td>{{ registration.lessonId.location }}</td>
+                        <td>{{ registration.lessonId.location.name }}</td>
                         <td><button class="btn btn-danger" data-toggle="modal" data-target="#uitschrijven{{ registration.id }}">uitschrijven</button></td>
 
                     <div class="modal fade" id="uitschrijven{{ registration.id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                         <div class="modal-dialog modal-dialog-centered" role="document">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalCenterTitle">Modal title</h5>
+                                    <h5 class="modal-title" id="exampleModalCenterTitle">uitschrijven</h5>
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                         <span aria-hidden="true">&times;</span>
                                     </button>

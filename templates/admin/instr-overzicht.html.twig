@@ -20,6 +20,11 @@
         </div>
     </div>
     <div class="row">
+        <div class="col mb-2">
+            <button class="btn btn-danger" onclick="location.href='{{ path('admin_create_instructor') }}';">instructeur aanmaken</button>
+        </div>
+    </div>
+    <div class="row">
         <div class="col">
             <table class="table table-responsive">
                 <thead>
@@ -30,6 +35,7 @@
                 <th>start datum</th>
                 <th>salaris</th>
                 <th>les</th>
+                <th>verwijderen</th>
                 </thead>
                 <tbody>
                 {% for instructor in instructors %}
@@ -40,8 +46,28 @@
                         <td>{{ instructor.emailadress }}</td>
                         <td>{{ instructor.hiringDate|date("d-m-y") }}</td>
                         <td>{{ instructor.salary }}</td>
-
                         <td><button class="btn btn-danger" onclick="location.href='{{ path('admin_instructor_les', {id: instructor.id}) }}';">les</button> </td>
+                        <td><button class="btn btn-danger" data-toggle="modal" data-target="#verwijderen{{ instructor.id }}">verwijderen</button></td>
+
+                        <div class="modal fade" id="verwijderen{{ instructor.id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalCenterTitle">verwijder instructor</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        Weet u zeker dat u deze instructor wilt verwijderen?
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">nee</button>
+                                        <button type="button" class="btn btn-danger" onclick="location.href='{{ path('admin_remove_instructor',{id:instructor.id}) }}';">Ja</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </tr>
                 {% endfor %}
                 </tbody>

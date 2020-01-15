@@ -18,7 +18,7 @@
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalCenterTitle">Modal title</h5>
+                        <h5 class="modal-title" id="exampleModalCenterTitle">wijzig</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -68,7 +68,7 @@
                         <td>{{ lesson.time|date('H:i') }}</td>
                         <td>{{ lesson.trainingId.name }}</td>
                         <td>{{ lesson.instructorId.firstName }}</td>
-                        <td>{{ lesson.location }}</td>
+                        <td>{{ lesson.location.name }}</td>
                         <td><button class="btn btn-danger" onclick="location.href='{{ path('lid_inschrijven',{id:lesson.id}) }}';">inschrijven</button> </td>
                     </tr>
 

@@ -91,19 +91,16 @@ class Person implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
-     * @Assert\NotBlank(message="vul uw straatnaam en nummer in")
      */
     private $street;
 
     /**
      * @ORM\Column(type="string", length=7, nullable=true)
-     * @Assert\NotBlank(message="vul uw postcode in in")
      */
     private $postal_code;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
-     * @Assert\NotBlank(message="vul de naam van uw woonplaats in")
      */
     private $place;
 

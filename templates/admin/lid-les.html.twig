@@ -38,7 +38,7 @@
                         <td>{{ registration.lessonId.time|date('H:i') }}</td>
                         <td>{{ registration.lessonId.trainingId.name }}</td>
                         <td>{{ registration.lessonId.instructorId.firstName }}</td>
-                        <td>{{ registration.lessonId.location }}</td>
+                        <td>{{ registration.lessonId.location.name }}</td>
                     </tr>
                 {% endfor %}
                 </tbody>

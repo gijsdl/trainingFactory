@@ -5,6 +5,7 @@ namespace App\Form;
 
 
 use App\Entity\Lesson;
+use App\Entity\Location;
 use App\Entity\Person;
 use App\Entity\Training;
 use App\Repository\PersonRepository;
@@ -32,7 +33,10 @@ class LesType extends AbstractType
         $builder
             ->add('time',null, ['label'=>'Tijd'])
             ->add('date', DateType::class, ['years' => range($date, $dateFuture), 'format' => 'dd MM yyyy'])
-            ->add('location', null, ['label'=>'locatie'])
+            ->add('location', EntityType::class, [
+                'class'=>Location::class,
+                'choice_label'=>'name',
+                'label'=>'locatie'])
             ->add('max_persons', null, ['label'=>'max personen'])
             ->add('training_id', EntityType::class, [
                 'class' => Training::class,

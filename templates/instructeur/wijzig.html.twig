@@ -4,22 +4,22 @@
     <li class="nav-item">
         <a class="nav-link" href="{{ path('instr_home') }}">Home</a>
     </li>
-    <li class="nav-item active">
-        <a class="nav-link" href="{{ path('instr_les_plan') }}">Plannen lessen<span class="sr-only">(current)</span></a>
+    <li class="nav-item">
+        <a class="nav-link" href="{{ path('instr_les_plan') }}">Plannen lessen</a>
     </li>
 
     <li class="nav-item">
         <a class="nav-link" href="{{ path('instr_les_overzicht') }}">Lessen beheer</a>
     </li>
-    <li class="nav-item">
-        <a class="nav-link" data-toggle="modal" data-target="#wijzig" href="#">Gegevens wijzigen</a>
+    <li class="nav-item active">
+        <a class="nav-link" data-toggle="modal" data-target="#wijzig" href="#">Gegevens wijzigen<span class="sr-only">(current)</span></a>
 
 
         <div class="modal fade" id="wijzig" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalCenterTitle">Modal title</h5>
+                        <h5 class="modal-title" id="exampleModalCenterTitle">wijzig</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>

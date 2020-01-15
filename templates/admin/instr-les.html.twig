@@ -42,7 +42,7 @@
                         <td>{{ lesson.time|date('H:i') }}</td>
                         <td>{{ lesson.trainingId.name }}</td>
                         <td>{{ lesson.instructorId.firstName }}</td>
-                        <td>{{ lesson.location }}</td>
+                        <td>{{ lesson.location.name }}</td>
                         <td>{{ lesson.trainingId.cost }}</td>
                         {% set lessTotal = 0 %}
                         {% for registration in lesson.registrations %}
