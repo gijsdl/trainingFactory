@@ -30,9 +30,9 @@ class InstructorType extends AbstractType
                 'first_options'  => ['label' => 'wachtwoord'],
                 'second_options' => ['label' => 'herhaal wachtwoord'],
             ])
-            ->add('first_name', null, ['label' => 'voornaam'])
+            ->add('first_name', null, ['label' => 'voornaam', 'attr'=>['class'=>'text-capitalize']])
             ->add('preprovision', null, ['label' => 'tussenvoegsel'])
-            ->add('last_name', null, ['label' => 'achternaam'])
+            ->add('last_name', null, ['label' => 'achternaam', 'attr'=>['class'=>'text-capitalize']])
             ->add('date_of_birth', DateType::class, ['years' => range($datePast, $date), 'format' => 'dd MM yyyy', 'label' => 'geboortedatum'])
             ->add('gender', ChoiceType::class, [
                 'choices' => [

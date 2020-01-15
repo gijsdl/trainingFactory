@@ -10,6 +10,7 @@ use App\Entity\Registration;
 use App\Form\LidType;
 use phpDocumentor\Reflection\Types\Boolean;
 use phpDocumentor\Reflection\Types\This;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
@@ -17,6 +18,11 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
+/**
+ * Class LidController
+ * @package App\Controller
+ * @IsGranted("ROLE_LID")
+ */
 class LidController extends AbstractController
 {
     /**
@@ -24,7 +30,6 @@ class LidController extends AbstractController
      */
     public function lidHome()
     {
-        $this->denyAccessUnlessGranted("ROLE_LID");
         return $this->render("lid/home.html.twig");
     }
 
@@ -33,8 +38,6 @@ class LidController extends AbstractController
      */
     public function lidWijzig(Request $request, UserPasswordEncoderInterface $encoder, $password)
     {
-
-        $this->denyAccessUnlessGranted("ROLE_LID");
         $lid = $this->getDoctrine()->getRepository(Person::class)->find($this->getUser()->getId());
 
 
@@ -88,7 +91,6 @@ class LidController extends AbstractController
      */
     public function lidLesOverzicht($date)
     {
-        $this->denyAccessUnlessGranted("ROLE_LID");
         $em = $this->getDoctrine()->getManager();
         $date = new \DateTime($date);
         $lessons = $em->getRepository(Lesson::class)->findByDate($date);
@@ -101,7 +103,6 @@ class LidController extends AbstractController
      */
     public function lidInschrijven($id)
     {
-        $this->denyAccessUnlessGranted("ROLE_LID");
         $em = $this->getDoctrine()->getManager();
 
         $lesson = $em->getRepository(Lesson::class)->find($id);
@@ -140,7 +141,6 @@ class LidController extends AbstractController
      * @Route("/lid/inschrijf_overzicht", name="lid_inschrijf_overzicht")
      */
     public function lidInschrijfOverzicht(){
-        $this->denyAccessUnlessGranted("ROLE_LID");
         $em = $this->getDoctrine()->getManager();
         $lid = $em->getRepository(Person::class)->find($this->getUser());
         $registrations = $lid->getRegistrations();
@@ -152,7 +152,6 @@ class LidController extends AbstractController
      * @Route("/lid/verwijder_registration/{id}", name="lid_registration_verwijder")
      */
     public function verwijderRegistration($id){
-        $this->denyAccessUnlessGranted("ROLE_LID");
         $em = $this->getDoctrine()->getManager();
         $registration = $em->getRepository(Registration::class)->find($id);
         $em->remove($registration);

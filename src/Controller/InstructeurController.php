@@ -12,6 +12,7 @@ use App\Form\InstructorType;
 use App\Form\LesType;
 use App\Form\LidType;
 use App\Form\RegistrationType;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
@@ -19,6 +20,11 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
+/**
+ * Class InstructeurController
+ * @package App\Controller
+ * @IsGranted("ROLE_INSTR")
+ */
 class InstructeurController extends AbstractController
 {
     /**
@@ -26,7 +32,6 @@ class InstructeurController extends AbstractController
      */
     public function instrHome()
     {
-        $this->denyAccessUnlessGranted('ROLE_INSTR');
         return $this->render('instructeur/home.html.twig');
     }
 
@@ -35,7 +40,6 @@ class InstructeurController extends AbstractController
      */
     public function instrPlanLes(Request $request)
     {
-        $this->denyAccessUnlessGranted('ROLE_INSTR');
         $form = $this->createForm(LesType::class);
 
         $form->handleRequest($request);
@@ -58,7 +62,6 @@ class InstructeurController extends AbstractController
      * @Route("/instr/les_overzicht", name="instr_les_overzicht")
      */
     public function instrLesOverzicht(){
-        $this->denyAccessUnlessGranted('ROLE_INSTR');
         $lessons = $this->getDoctrine()->getRepository(Lesson::class)->findByBiggerDate(new \DateTime(date('y-m-d')), $this->getUser()->getID());
 
         return $this->render('instructeur/les-overzicht.html.twig', ["lessons"=>$lessons]);
@@ -69,7 +72,6 @@ class InstructeurController extends AbstractController
      * @Route("/instr/les_wijzig/{id}", name="instr_les_wijzig")
      */
     public function instrLesWijzig(Request $request, $id){
-        $this->denyAccessUnlessGranted('ROLE_INSTR');
         $lesson = $this->getDoctrine()->getRepository(Lesson::class)->find($id);
         $form = $this->createForm(LesType::class, $lesson);
 
@@ -93,7 +95,6 @@ class InstructeurController extends AbstractController
      * @Route("/instr/les_verwijder/{id}", name="instr_les_verwijder")
      */
     public function instrLesVerwijder($id){
-        $this->denyAccessUnlessGranted('ROLE_INSTR');
         $em = $this->getDoctrine()->getManager();
         $lesson = $em->getRepository(Lesson::class)->find($id);
 
@@ -108,7 +109,6 @@ class InstructeurController extends AbstractController
      * @Route("/instr/deelnemerslijst/{id}", name="instr_deelnemerslijst")
      */
     public function instrDeelnemerslijst($id){
-        $this->denyAccessUnlessGranted("ROLE_INSTR");
         $em = $this->getDoctrine()->getManager();
         $lesson = $em->getRepository(Lesson::class)->find($id);
         $registrations = $lesson->getRegistrations();

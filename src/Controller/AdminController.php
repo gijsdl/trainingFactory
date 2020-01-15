@@ -9,18 +9,23 @@ use App\Entity\Training;
 use App\Form\InstructorType;
 use App\Form\PersonType;
 use App\Form\TrainingType;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
+/**
+ * Class AdminController
+ * @package App\Controller
+ * @IsGranted("ROLE_ADMIN")
+ */
 class AdminController extends AbstractController
 {
     /**
      * @Route("/admin", name="admin_home" )
      */
     public function adminHome(){
-        $this->denyAccessUnlessGranted('ROLE_ADMIN');
         return $this->render('admin/home.html.twig');
     }
 
@@ -28,7 +33,6 @@ class AdminController extends AbstractController
      * @Route("/admin/training-overzicht", name="admin_training_overzicht")
      */
     public function trainingOverzicht(){
-        $this->denyAccessUnlessGranted('ROLE_ADMIN');
         $trainingen = $this->getDoctrine()->getRepository(Training::class)->findAll();
 
        return $this->render('admin/training-overzicht.html.twig', ["trainingen"=>$trainingen]);
@@ -38,9 +42,6 @@ class AdminController extends AbstractController
      * @Route("/admin/training/toevoegen", name="admin_training_toevoegen")
      */
     public function trainingToevoegen(Request $request){
-
-        $this->denyAccessUnlessGranted('ROLE_ADMIN');
-
         $form = $this->createForm(TrainingType::class);
 
         $form->handleRequest($request);
@@ -63,7 +64,6 @@ class AdminController extends AbstractController
      * @Route("/admin/training/aanpassen/{id}", name="admin_training_aanpassen")
      */
     public function trainingAanpassen(Request $request, $id){
-        $this->denyAccessUnlessGranted('ROLE_ADMIN');
         $em = $this->getDoctrine()->getManager();
         $training = $em->getRepository(Training::class)->find($id);
 
@@ -90,7 +90,6 @@ class AdminController extends AbstractController
      * @Route("/admin/training/verwijder/{id}", name="admin_training_verwijder")
      */
     public function trainingVerwijder($id){
-        $this->denyAccessUnlessGranted('ROLE_ADMIN');
         $em = $this->getDoctrine()->getManager();
         $training = $em->getRepository(Training::class)->find($id);
 
@@ -105,7 +104,6 @@ class AdminController extends AbstractController
      * @Route("/admin/leden", name="admin_leden")
      */
     public function leden(){
-        $this->denyAccessUnlessGranted("ROLE_ADMIN");
         $em = $this->getDoctrine()->getManager();
         $leden= $em->getRepository(Person::class)->findAllRole("ROLE_LID");
 
@@ -116,7 +114,6 @@ class AdminController extends AbstractController
      * @Route("/admin/disable/{id}", name="admin_disable_member")
      */
     public function disable($id){
-        $this->denyAccessUnlessGranted("ROLE_ADMIN");
         $em = $this->getDoctrine()->getManager();
         $lid = $em->getRepository(Person::class)->find($id);
         $lid->setEnabled(0);
@@ -128,7 +125,6 @@ class AdminController extends AbstractController
      * @Route("/admin/enable/{id}", name="admin_enable_member")
      */
     public function enable($id){
-        $this->denyAccessUnlessGranted("ROLE_ADMIN");
         $em = $this->getDoctrine()->getManager();
         $lid = $em->getRepository(Person::class)->find($id);
         $lid->setEnabled(1);
@@ -140,7 +136,6 @@ class AdminController extends AbstractController
      * @Route("/admin/lid-les/{id}", name="admin_lid_les")
      */
     public function adminLidLes($id){
-        $this->denyAccessUnlessGranted("ROLE_ADMIN");
         $em = $this->getDoctrine()->getManager();
         $lid = $em->getRepository(Person::class)->find($id);
         $registrations = $lid->getRegistrations();
@@ -161,7 +156,6 @@ class AdminController extends AbstractController
      * @Route("/admin/instr-les/{id}", name="admin_instructor_les")
      */
     public function adminInstrLes($id){
-        $this->denyAccessUnlessGranted("ROLE_ADMIN");
         $em = $this->getDoctrine()->getManager();
         $lid = $em->getRepository(Person::class)->find($id);
         $lesssons = $lid->getLessons();
@@ -173,7 +167,6 @@ class AdminController extends AbstractController
      * @Route("/admin/create-instructor", name="admin_create_instructor")
      */
     public function createInstructor(Request $request, UserPasswordEncoderInterface $encoder){
-        $this->denyAccessUnlessGranted("ROLE_ADMIN");
         $form = $this->createForm(InstructorType::class);
 
         $form->remove("wachtwoord");
@@ -201,7 +194,6 @@ class AdminController extends AbstractController
      * @Route("/admin/remove-instructor/{id}", name="admin_remove_instructor")
      */
     public function adminRemoveInstructor($id){
-        $this->denyAccessUnlessGranted("ROLE_ADMIN");
 
         $em = $this->getDoctrine()->getManager();
         $instructor = $em->getRepository(Person::class)->find($id);
