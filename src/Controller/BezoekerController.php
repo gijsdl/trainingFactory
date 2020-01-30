@@ -69,7 +69,7 @@ class BezoekerController extends AbstractController
 
             $this->addFlash('success', 'Uw account is aangemaakt. U kunt nu inloggen.');
 
-            return $this->redirectToRoute('home');
+            return $this->redirectToRoute('app_login');
         }
 
         return $this->render('bezoeker/registratie.hml.twig', ['lidForm'=>$form->createView()]);

@@ -9,8 +9,8 @@
     <li class="nav-item">
         <a class="nav-link" href="{{ path('lid_inschrijf_overzicht') }}">Overzicht inschrijvingen</a>
     </li>
-    <li class="nav-item">
-        <a class="nav-link" data-toggle="modal" data-target="#wijzig" href="#">Gegevens wijzigen</a>
+    <li class="nav-item active">
+        <a class="nav-link" data-toggle="modal" data-target="#wijzig" href="#">Gegevens wijzigen<span class="sr-only">(current)</span></a>
 
 
         <div class="modal fade" id="wijzig" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
@@ -38,7 +38,7 @@
 {% block content %}
     <div class="row">
         <div class="col">
-            <h1 class="text-danger">Registreer</h1>
+            <h1 class="text-danger">Wijzig profiel</h1>
             <h4>{{ app.user.username }}</h4>
             {{ form_start(lidForm) }}
             {{ form_widget(lidForm) }}
