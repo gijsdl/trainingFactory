@@ -76,7 +76,7 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator implements P
             throw new CustomUserMessageAuthenticationException('Username could not be found.');
         }
 
-        if (!$user->getEnabled() && $user->getEnabled() != null){
+        if (!$user->getEnabled() && $user->getRoles()[0] == "ROLE_LID"){
             throw new CustomUserMessageAuthenticationException('U bent gedisabled.');
         }
 

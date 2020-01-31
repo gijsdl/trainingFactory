@@ -1,10 +1,9 @@
 {% extends 'base.html.twig' %}
 {% block navbar %}{% endblock %}
-{% block flash %}
-    {{ parent() }}
-                {% if error %}
-                    <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-                {% endif %}
+{% block inlogFlash %}
+    {% if error %}
+        <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+    {% endif %}
 
 {% endblock %}
 {% block content %}
